@@ -14,6 +14,36 @@ struct ContentView: View {
     
     let units = ["meter", "kilometre", "feet", "yard", "mile"]
     
+    var inputInFeet: Double {
+        switch inputUnit {
+        case "meter":
+            return  3.281 * inputValue
+        case "kilometre":
+            return 3281 * inputValue
+        case "yard":
+            return 3 * inputValue
+        case "mile":
+            return 5280 * inputValue
+        default:
+            return inputValue
+        }
+    }
+    
+    var result: Double {
+        switch outputUnit {
+        case "meter":
+            return inputInFeet / 3.281
+        case "kilometre":
+            return inputInFeet / 3281
+        case "yard":
+            return inputInFeet / 3
+        case "mile":
+            return inputInFeet / 5280
+        default:
+            return inputInFeet
+        }
+    }
+    
     var body: some View {
         NavigationStack{
             Form {
@@ -36,7 +66,7 @@ struct ContentView: View {
                     HStack {
                         Text("result:")
                         Spacer()
-                        Text("666")
+                        Text("\(result)")
                     }
                 }
             }
