@@ -8,22 +8,39 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var value = 0
+    @State private var inputValue = 1.0
+    @State private var inputUnit = "kilometre"
+    @State private var outputUnit = "mile"
     
-let lengths = ["meter", "kilometer", "feet", "yard", "mile"]
+    let units = ["meter", "kilometre", "feet", "yard", "mile"]
     
-
     var body: some View {
-        Form {
-            Section {
-                Picker("Legths", selection: $value) {
-                    ForEach(lengths, id: \.self) {
-                        Text($0)
+        NavigationStack{
+            Form {
+                Section {
+                    HStack {
+                        Text("value:")
+                        TextField("enter value", value: $inputValue, format: .number)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    Picker("from", selection: $inputUnit) {
+                        ForEach(units, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    Picker("to", selection: $outputUnit) {
+                        ForEach(units, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    HStack {
+                        Text("result:")
+                        Spacer()
+                        Text("666")
                     }
                 }
-                .pickerStyle(.segmented)
-            
             }
+            .navigationTitle("Length converter")
         }
     }
 }
