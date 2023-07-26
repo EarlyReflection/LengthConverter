@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var inputValue = 1.0
     @State private var inputUnit = "kilometre"
     @State private var outputUnit = "mile"
+    @FocusState private var amountIsFocused: Bool
     
     let units = ["meter", "kilometre", "feet", "yard", "mile"]
     
@@ -53,6 +54,9 @@ struct ContentView: View {
                         TextField("enter value", value: $inputValue, format: .number)
                             .multilineTextAlignment(.trailing)
                     }
+                    .keyboardType(.decimalPad)
+                    .focused($amountIsFocused)
+                    
                     Picker("from", selection: $inputUnit) {
                         ForEach(units, id: \.self) {
                             Text($0)
@@ -71,6 +75,14 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Length converter")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        amountIsFocused = false
+                    }
+                }
+            }
         }
     }
 }
