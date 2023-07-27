@@ -13,36 +13,48 @@ struct ContentView: View {
     @State private var outputUnit = "mile"
     @FocusState private var amountIsFocused: Bool
     
-    let units = ["meter", "kilometre", "feet", "yard", "mile"]
+    let units = ["metre", "kilometre", "inch", "feet", "yard", "mile"]
     
-    var inputInFeet: Double {
+    var inValueToMetre: Double {
+        let unitToMetre: Double
+        
         switch inputUnit {
-        case "meter":
-            return  3.281 * inputValue
         case "kilometre":
-            return 3281 * inputValue
+            unitToMetre = 1000
+        case "inch":
+            unitToMetre = 0.0254
+        case "feet":
+            unitToMetre = 0.3048
         case "yard":
-            return 3 * inputValue
+            unitToMetre = 0.9144
         case "mile":
-            return 5280 * inputValue
+            unitToMetre = 1609.34
         default:
-            return inputValue
+            unitToMetre = 1
         }
+        
+        return unitToMetre * inputValue
     }
     
     var result: Double {
+        let metreToUnit: Double
+        
         switch outputUnit {
-        case "meter":
-            return inputInFeet / 3.281
         case "kilometre":
-            return inputInFeet / 3281
+            metreToUnit = 0.001
+        case "inch":
+            metreToUnit = 39.3701
+        case "feet":
+            metreToUnit = 3.28084
         case "yard":
-            return inputInFeet / 3
+            metreToUnit = 1.09361
         case "mile":
-            return inputInFeet / 5280
+            metreToUnit = 0.000621371
         default:
-            return inputInFeet
+            metreToUnit = 1
         }
+        
+        return inValueToMetre * metreToUnit
     }
     
     var body: some View {
@@ -70,7 +82,7 @@ struct ContentView: View {
                     HStack {
                         Text("result:")
                         Spacer()
-                        Text("\(result)")
+                        Text(String(result))
                     }
                 }
             }
